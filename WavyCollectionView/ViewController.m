@@ -7,8 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "CustomCollectionViewCell.h"
 
-@interface ViewController ()
+@interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+
+@property (nonatomic,strong) UICollectionView* collectionView;
 
 @end
 
@@ -16,8 +19,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    [self setupCollectionView];
 }
 
+-(void)setupCollectionView{
+    UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc]init];
+    UICollectionView* collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+    collectionView.translatesAutoresizingMaskIntoConstraints = 0;
+    collectionView.backgroundColor = [UIColor whiteColor];
+    collectionView.delegate = self;
+    collectionView.dataSource = self;
+    [collectionView registerClass:[CustomCollectionViewCell class] forCellWithReuseIdentifier:@"customCell"];
+    
+    [self.view addSubview:collectionView];
+    self.collectionView = collectionView;
+    
+    [NSLayoutConstraint activateConstraints:@[
+                                              [collectionView.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:0],
+                                               [collectionView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:0],
+                                               [collectionView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:0],
+                                               [collectionView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:0],
+                                              ]];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return 10;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    CustomCollectionViewCell* cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"customCell" forIndexPath:indexPath];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(50, 50);
+}
 
 @end
+
