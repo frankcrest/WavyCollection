@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "CustomCollectionViewCell.h"
+#import "CustomFlowLayout.h"
 
 @interface ViewController () <UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -24,7 +25,7 @@
 }
 
 -(void)setupCollectionView{
-    UICollectionViewFlowLayout* layout = [[UICollectionViewFlowLayout alloc]init];
+    CustomFlowLayout* layout = [[CustomFlowLayout alloc]init];
     UICollectionView* collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
     collectionView.translatesAutoresizingMaskIntoConstraints = 0;
     collectionView.backgroundColor = [UIColor whiteColor];
@@ -48,16 +49,12 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 10;
+    return 9;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     CustomCollectionViewCell* cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"customCell" forIndexPath:indexPath];
     return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(50, 50);
 }
 
 @end
